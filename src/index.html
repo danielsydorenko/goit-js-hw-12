@@ -4,19 +4,42 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+    <title>Last 12 HomeWork</title>
     <link rel="stylesheet" href="./css/styles.css" />
+  <style>
+      .hidden {
+        display: none !important;
+      }
+    </style>
   </head>
   <body>
-    <load src="./partials/header.html" icon-path="img/sprite.svg#logo" />
+    <header class="container">
+      <form class="form" id="search-form">
+        <input
+          type="text"
+          name="searchQuery"
+          placeholder="Search images..."
+          required
+        />
+        <button type="submit">Search</button>
+      </form>
+    </header>
 
-    <main>
-      <!-- Loads the specified .html file -->
-      <load src="./partials/vite-promo.html" />
-      <load src="./partials/badges.html" />
+    <main class="container">
+      <ul class="gallery" id="gallery"></ul>
+
+      <div class="loader-backdrop hidden" id="loader">
+        <span class="loader"></span>
+      </div>
+
+      <button type="button" id="load-more" class="load-more hidden">
+        Load more
+      </button>
     </main>
 
-    <load src="./partials/footer.html" />
+    <footer class="container">
+      <p>&copy; 2025 Pixabay Search App</p>
+    </footer>
 
     <script type="module" src="./main.js"></script>
   </body>
