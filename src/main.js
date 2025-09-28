@@ -19,14 +19,21 @@ const perPage = 15;
 const searchForm = document.querySelector('#search-form');
 const loadMoreBtn = document.querySelector('.load-more');
 
+console.log('DEBUG: searchForm =', searchForm);
+console.log('DEBUG: loadMoreBtn =', loadMoreBtn);
+
 searchForm.addEventListener('submit', onSearch);
 loadMoreBtn.addEventListener('click', onLoadMore);
 
 async function onSearch(event) {
   event.preventDefault();
+  console.log('DEBUG: onSearch triggered ✅');
 
   const searchInput = event.currentTarget.elements['searchQuery'];
-  if (!searchInput) return;
+  if (!searchInput) {
+    console.error('❌ ERROR: searchQuery input not found');
+    return;
+  }
 
   const searchValue = searchInput.value.trim();
   if (!searchValue) {
@@ -46,6 +53,7 @@ async function onSearch(event) {
 
   try {
     const data = await fetchImages(query, page, perPage);
+    console.log('DEBUG: fetchImages response =', data);
 
     if (!data || !data.hits || data.hits.length === 0) {
       iziToast.warning({
@@ -56,8 +64,7 @@ async function onSearch(event) {
       return;
     }
 
-    // Перезаписуємо галерею при новому пошуку
-    renderGallery(data.hits, { append: false });
+    renderGallery(data.hits);
 
     const totalPages = Math.ceil(data.totalHits / perPage);
     if (totalPages > 1) {
@@ -82,15 +89,16 @@ async function onSearch(event) {
 }
 
 async function onLoadMore() {
+  console.log('DEBUG: onLoadMore triggered ✅');
   page += 1;
   hideLoadMoreBtn();
   showLoader();
 
   try {
     const data = await fetchImages(query, page, perPage);
+    console.log('DEBUG: fetchImages response (load more) =', data);
 
-    // Додаємо нові зображення до вже існуючих
-    renderGallery(data.hits, { append: true });
+    renderGallery(data.hits);
 
     const totalPages = Math.ceil(data.totalHits / perPage);
     if (page < totalPages) {
@@ -103,7 +111,6 @@ async function onLoadMore() {
       });
     }
 
-    hideLoader();
     smoothScroll();
   } catch (error) {
     console.error('❌ ERROR in onLoadMore:', error);
@@ -112,6 +119,7 @@ async function onLoadMore() {
       message: 'Failed to load more images.',
       position: 'topRight',
     });
+  } finally {
     hideLoader();
   }
 }
