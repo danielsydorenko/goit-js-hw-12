@@ -64,8 +64,7 @@ async function onSearch(event) {
       return;
     }
 
-    // перший пошук — не append
-    renderGallery(data.hits, { append: false });
+    renderGallery(data.hits);
 
     const totalPages = Math.ceil(data.totalHits / perPage);
     if (totalPages > 1) {
@@ -99,8 +98,7 @@ async function onLoadMore() {
     const data = await fetchImages(query, page, perPage);
     console.log('DEBUG: fetchImages response (load more) =', data);
 
-    // тут append = true, додаємо картинки до вже існуючих
-    renderGallery(data.hits, { append: true });
+    renderGallery(data.hits);
 
     const totalPages = Math.ceil(data.totalHits / perPage);
     if (page < totalPages) {
@@ -113,7 +111,6 @@ async function onLoadMore() {
       });
     }
 
-    // викликаємо після фактичного додавання
     smoothScroll();
   } catch (error) {
     console.error('❌ ERROR in onLoadMore:', error);
@@ -128,10 +125,9 @@ async function onLoadMore() {
 }
 
 function smoothScroll() {
-  const firstCard = document.querySelector('.gallery').firstElementChild;
-  if (!firstCard) return;
-
-  const { height: cardHeight } = firstCard.getBoundingClientRect();
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
     top: cardHeight * 2,
