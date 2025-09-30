@@ -1,9 +1,14 @@
+import iziToast from 'izitoast';
+
+import 'izitoast/dist/css/iziToast.min.css';
+
 import axios from 'axios';
 
-const API_KEY = '51904877-a497cebd24b125b23f704ea34';
+const API_KEY = '52348625-41a9db4c50e5799aece4dcd77';
+
 const BASE_URL = 'https://pixabay.com/api/';
-export async function fetchImages(query, page = 1, perPage = 15) {
-  const params = {
+export async function getImagesByQuery(query, page = 1, perPage = 60) {
+  const searchParams = new URLSearchParams({
     key: API_KEY,
     q: query,
     image_type: 'photo',
@@ -11,8 +16,15 @@ export async function fetchImages(query, page = 1, perPage = 15) {
     safesearch: true,
     page,
     per_page: perPage,
-  };
+  });
 
-  const response = await axios.get(BASE_URL, { params });
-  return response.data;
+  const url = `${BASE_URL}?${searchParams}`;
+
+  try {
+    const response = await axios.get(url);
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Не вдалося отримати зображення: ${error.message}`);
+  }
 }

@@ -4,42 +4,31 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Last 12 HomeWork</title>
+    <title>Vanilla App Template</title>
     <link rel="stylesheet" href="./css/styles.css" />
-    <style>
-      .hidden {
-        display: none !important;
-      }
-    </style>
   </head>
   <body>
-    <header class="container">
-      <form class="form" id="search-form">
-        <input
-          type="text"
-          name="searchQuery"
-          placeholder="Search images..."
-          required
-        />
+    <div class="container">
+      <form class="form">
+        <label>
+          <input
+            type="text"
+            name="search"
+            placeholder="Search images..."
+            required
+          />
+        </label>
         <button type="submit">Search</button>
       </form>
-    </header>
+      <!-- <span class="loader"></span> -->
 
-    <main class="container">
-      <ul class="gallery" id="gallery"></ul>
+      <ul class="gallery"></ul>
 
-      <div class="loader-backdrop hidden" id="loader">
+      <div class="load-more-wrapper">
+        <button type="button" class="load-more hidden">Load more</button>
         <span class="loader"></span>
       </div>
-
-      <button type="button" id="load-more" class="load-more hidden">
-        Load more
-      </button>
-    </main>
-
-    <footer class="container">
-      <p>&copy; 2025 Pixabay Search App</p>
-    </footer>
+    </div>
 
     <script type="module" src="./main.js"></script>
   </body>
